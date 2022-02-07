@@ -1,14 +1,14 @@
 const express = require("express");
-const router = express.Router();
-const cors = require("cors");
+
 const nodemailer = require("nodemailer");
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use("/", router);
-app.listen(5000, () => console.log("Server Running"));
 
+const app = express();
+app.get('/',function(req,res){
+  return res.send(200).send('works')
+})
+
+app.use(express.json());
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -25,7 +25,7 @@ contactEmail.verify((error) => {
   }
 });
 
-router.post("/contact", (req, res) => {
+app.post("/contact", (req, res) => {
   const message = req.body;
   const mail = {
     from: "admntr67@gmail.com",
@@ -51,3 +51,5 @@ router.post("/contact", (req, res) => {
     }
   });
 });
+app.listen(5000, () => console.log("Server Running"));
+
